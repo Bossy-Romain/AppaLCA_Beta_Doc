@@ -1,0 +1,43 @@
+name: Build and deploy the documentation on the branch gh-pages
+
+on:
+  repository_dispatch:
+    types:
+      - update_documentation
+
+jobs:
+    build-deploy:
+        name: Build and deploy the documentation
+        runs-on: ubuntu-latest
+        permissions:
+          contents: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+              with: 
+                submodules: true
+
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.11'
+            
+            - name: Install dependencies
+              run: |
+                sudo apt-get update
+                sudo apt-get install -y make
+                python -m pip install -U pip
+                pip install sphinx pydata-sphinx-theme
+            
+            - name: Build
+              run: |
+                sphinx-apidoc -o docs/ AppaLCA_Beta/app/
+                cd docs
+                make html
+
+            - name: Deploy on the branch gh-pages
+              uses: peaceiris/actions-gh-pages@v4
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                publish_dir: ./docs/_build/html
+              

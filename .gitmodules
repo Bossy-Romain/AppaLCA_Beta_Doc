@@ -1,0 +1,4 @@
+[submodule "AppaLCA_Beta"]
+	path = AppaLCA_Beta
+	url = https://github.com/Bossy-Romain/AppaLCA_Beta.git
+	branch = master
