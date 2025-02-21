@@ -27,7 +27,7 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install -y make
                 python -m pip install -U pip
-                pip install sphinx pydata-sphinx-theme
+                pip install sphinx pydata-sphinx-theme ghp-import
             
             - name: Build
               run: |
@@ -36,8 +36,6 @@ jobs:
                 make html
 
             - name: Deploy on the branch gh-pages
-              uses: peaceiris/actions-gh-pages@v4
-              with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                publish_dir: ./docs/_build/html
+              run: |
+                ghp-import -n -f -p ./doc/_build/hmtl
               
