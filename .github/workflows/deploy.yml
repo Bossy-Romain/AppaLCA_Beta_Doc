@@ -37,6 +37,5 @@ jobs:
 
             - name: Deploy on the branch gh-pages
               run: |
-                pwd
                 ghp-import -n -f -p ./docs/_build/html
               
